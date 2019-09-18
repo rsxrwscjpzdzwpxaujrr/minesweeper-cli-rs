@@ -184,7 +184,7 @@ impl Game {
             key = std::char::from_u32(raw_key as u32).unwrap_or(' ');
 
             if raw_key == 127 && result.len() > 0 {
-                result = result[..result.len()-1].to_string();
+                result = result[..result.len()-1].to_owned();
                 mvdelch(getcury(*window), getcurx(*window) - 1);
             } else if key.is_numeric() && result.len() < 5 {
                 result.push(key);
