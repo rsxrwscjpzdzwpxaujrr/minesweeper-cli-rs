@@ -200,7 +200,7 @@ impl Game {
     fn ask_again(&mut self) {
         use ncurses::*;
 
-        let message = "Do you want to try again? (Y/n): "; 
+        let message = "Do you want to try again? (y/N): "; 
 
         addstr(message);
 
