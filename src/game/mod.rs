@@ -200,13 +200,28 @@ impl Game {
     fn ask_again(&mut self) {
         use ncurses::*;
 
-        let message = "Do you want to try again? (Y/n)"; 
+        let message = "Do you want to try again? (Y/n): "; 
 
         addstr(message);
 
-        let key = std::char::from_u32(getch() as u32).unwrap_or(' ');
+        let mut key = ' ';
+        let mut oldkey = ' ';
+        let mut first = true;
 
-        if key.to_lowercase().last().unwrap() == 'y' {
+        while key != '\n' {
+            oldkey = key;
+            key = std::char::from_u32(getch() as u32).unwrap_or(' ');
+
+            if !first {
+                mvdelch(getcury(self.window), getcurx(self.window) - 1);
+            }
+
+            addch(key as u32);
+
+            first = false;
+        }
+
+        if oldkey.to_lowercase().last().unwrap() == 'y' {
             erase();
             self.field = Game::new_field(&self.window);
             self.won = false;
